@@ -1,4 +1,4 @@
-const College = require("../models/college");
+const { College } = require("../models/college");
 const University = require("../models/university");
 
 const collegeController = {

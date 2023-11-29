@@ -84,6 +84,4 @@ const Course = mongoose.model("Course", courseSchema);
 const College = mongoose.model("College", collegeSchema);
 const Review = mongoose.model("Review", reviewSchema);
 
-module.exports = Course;
-module.exports = College;
-module.exports = Review;
+module.exports = { Review, College, Course };
