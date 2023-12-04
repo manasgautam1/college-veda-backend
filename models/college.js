@@ -31,6 +31,27 @@ const reviewSchema = new mongoose.Schema({
   },
 });
 
+const tableSchema = new mongoose.Schema({
+  college: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "College",
+  },
+  tableName: {
+    type: String,
+  },
+  description: {
+    type: String,
+  },
+  noOfColumns: {
+    type: Number,
+  },
+  noOfRows: {
+    type: Number,
+  },
+  columns: [],
+  rows: [],
+});
+
 const collegeSchema = new mongoose.Schema({
   fullName: {
     type: String,
@@ -74,6 +95,7 @@ const collegeSchema = new mongoose.Schema({
     type: String,
   },
   courses: [courseSchema],
+  tables: [tableSchema],
   collegeType: {
     type: String,
     enum: ["Private", "Government"],
@@ -83,5 +105,6 @@ const collegeSchema = new mongoose.Schema({
 const Course = mongoose.model("Course", courseSchema);
 const College = mongoose.model("College", collegeSchema);
 const Review = mongoose.model("Review", reviewSchema);
+const Table = mongoose.model("Table", tableSchema);
 
-module.exports = { Review, College, Course };
+module.exports = { Review, College, Course, Table };

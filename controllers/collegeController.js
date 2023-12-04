@@ -1,4 +1,4 @@
-const { College } = require("../models/college");
+const { College, Table, Course } = require("../models/college");
 const University = require("../models/university");
 
 const collegeController = {
@@ -132,6 +132,152 @@ const collegeController = {
       return res.status(200).json({ message: "College deleted" });
     } catch (err) {
       return res.status(500).json({ message: err.message });
+    }
+  },
+  addDynamicTable: async (req, res, next) => {
+    try {
+      const {
+        tableName,
+        description,
+        noOfColumns,
+        noOfRows,
+        columns,
+        rows,
+        collegeid,
+      } = req.body;
+
+      const tableObj = new Table({
+        tableName,
+        description,
+        noOfColumns,
+        noOfRows,
+        columns,
+        rows,
+        collegeid,
+      });
+      const collegeObj = await College.findOne({ _id: collegeid });
+      collegeObj.tables.push(tableObj);
+      await collegeObj.save();
+      await tableObj.save();
+      return res.status(200).json({ message: "table Added " });
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ message: err.message });
+    }
+  },
+  getDyanmicTables: async (req, res, next) => {
+    try {
+      const data = await Table.find();
+      return res.status(200).json({ message: "tables found ", data });
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ message: err.message });
+    }
+  },
+  getDynamicTableById: async (req, res, next) => {
+    try {
+      const tablearr = await Table.findById(req.params.id);
+      return res.status(200).json({ message: "Dynamic Table", data: tablearr });
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ message: err.message });
+    }
+  },
+  deleteDynamicTable: async (req, res, next) => {
+    try {
+      const { collegeId, tableId, index } = req.body;
+      const collegeObj = await College.findOne({ _id: collegeId });
+      const newTableData = collegeObj.tables.filter((item, i) => i !== index);
+      collegeObj.tables = newTableData;
+      await collegeObj.save();
+      await Table.findByIdAndRemove({ _id: tableId });
+      return res.status(200).json({ message: "Table Deleted" });
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ message: err.message });
+    }
+  },
+  updateDynamicTable: async (req, res, next) => {
+    try {
+      const collegeId = req.params.collegeId;
+      const tableId = req.params.tableId;
+
+      const CollegeObj = await College.findById({ _id: collegeId });
+      if (!CollegeObj) {
+        return res.status(404).json({ message: "College not found" });
+      }
+
+      const tableIndex = CollegeObj.tables.findIndex(
+        (table) => table._id == tableId
+      );
+
+      if (tableIndex === -1) {
+        return res.status(404).json({ message: "Table not found" });
+      }
+
+      CollegeObj.tables[tableIndex] = req.body;
+      // console.log(CollegeObj)
+      await CollegeObj.save();
+      await Table.findByIdAndUpdate({ _id: tableId }, req.body);
+      return res.status(200).json({ message: "Table Updated" });
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ message: err.message });
+    }
+  },
+  getTableByCollegeId: async (req, res, next) => {
+    try {
+      const { collegeId } = req.body;
+      const tablearr = await Table.find({ college: collegeId });
+      return res.status(200).json({ message: "Dynamic Table", data: tablearr });
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ message: err.message });
+    }
+  },
+
+  //courses
+  addCourse: async (req, res, next) => {
+    try {
+      const { collegeid, name, fee, specialization } = req.body;
+      const courseObj = new Course({
+        fee,
+        name,
+        specialization,
+      });
+      const collegeObj = await College.findOne({ _id: collegeid });
+      collegeObj.courses.push(courseObj);
+      await collegeObj.save();
+      await courseObj.save();
+      return res.status(200).json({ message: "Courses added" });
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ message: err.message });
+    }
+  },
+  getCoursesByCollege: async (req, res, next) => {
+    try {
+      const courseObj = await College.findById(req.params.id).populate(
+        "courses"
+      );
+      return res.status(200).json({ message: "Courses", data: courseObj });
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ message: err.message });
+    }
+  },
+  deleteCourse: async (req, res, next) => {
+    try {
+      const { collegeid, courseid, index } = req.body;
+      const collegeObj = await College.findOne({ _id: collegeid });
+      const newCourses = collegeObj.courses.filter((item, i) => i !== index);
+      collegeObj.courses = newCourses;
+      await collegeObj.save();
+      await Course.findByIdAndRemove({ _id: courseid });
+      return res.status(200).json({ message: "Course Deleted" });
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ message: err.message });
     }
   },
 };
