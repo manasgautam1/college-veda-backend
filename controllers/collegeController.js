@@ -41,6 +41,7 @@ const collegeController = {
         data: colleges,
         currentPage: page,
         totalPages: Math.ceil(totalItems / collegePerPage),
+        totalCount: totalItems,
         message: "All colleges with filtered",
       });
     } catch (err) {
