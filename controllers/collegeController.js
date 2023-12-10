@@ -12,7 +12,7 @@ const collegeController = {
   },
 
   getCollegesWithFilter: async (req, res, next) => {
-    const collegePerPage = 10;
+    const collegePerPage = 15;
     const { page, state, city, collegeType, fullName } = req.body;
     const skip = (page - 1) * collegePerPage;
 
