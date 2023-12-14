@@ -26,6 +26,7 @@ const connectDB = async () => {
 // Routes
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/blogs", require("./routes/blogRoutes"));
+app.use("/api/states", require("./routes/stateRoutes"));
 app.use("/api/testimonials", require("./routes/testimonialRoutes"));
 app.use("/api/contact", require("./routes/contactFormDataRoutes"));
 app.use("/api/colleges", require("./routes/collegeRoutes"));
