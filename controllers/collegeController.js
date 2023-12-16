@@ -31,11 +31,11 @@ const collegeController = {
         query.collegeType = collegeType;
       }
 
-      const totalItems = await College.countDocuments();
       const colleges = await College.find(query)
         .skip(skip)
         .limit(collegePerPage)
         .exec();
+      const totalItems = colleges.length;
 
       return res.status(200).json({
         data: colleges,
