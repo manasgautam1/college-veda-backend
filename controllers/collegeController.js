@@ -35,7 +35,10 @@ const collegeController = {
         .skip(skip)
         .limit(collegePerPage)
         .exec();
-      const totalItems = colleges.length;
+
+      const allCollegeWithFilter = await College.find(query);
+
+      const totalItems = allCollegeWithFilter.length;
 
       return res.status(200).json({
         data: colleges,
