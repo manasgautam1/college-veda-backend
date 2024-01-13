@@ -56,6 +56,11 @@ const collegeSchema = new mongoose.Schema({
   fullName: {
     type: String,
   },
+  slug: {
+    type: String,
+    unique: true,
+    required: true,
+  },
   logo: {
     type: String,
   },

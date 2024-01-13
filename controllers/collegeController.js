@@ -54,8 +54,11 @@ const collegeController = {
 
   getCollegeById: async (req, res) => {
     // Implement logic to get a user by ID
+    const slug = req.params.id || undefined;
     try {
-      const collegeData = await College.findById(req.params.id);
+      const collegeData = await College.findOne({
+        $or: [{ _id: isValidObjectId(slug) ? slug : undefined }, { slug }],
+      });
       return res
         .status(200)
         .json({ data: collegeData, message: "College by id" });
@@ -85,7 +88,7 @@ const collegeController = {
         university,
         collegeType,
       } = req.body;
-
+      const slug = slugify(fullName);
       const collegeObj = new College({
         fullName,
         logo,
@@ -102,6 +105,7 @@ const collegeController = {
         status,
         yearOfEstabilish,
         collegeType,
+        slug,
       });
 
       if (!!university) {
@@ -119,10 +123,10 @@ const collegeController = {
   updateCollege: async (req, res) => {
     // Implement logic to update a user
     try {
-      const collegeData = await College.findByIdAndUpdate(
-        req.params.id,
-        req.body
-      );
+      const collegeData = await College.findByIdAndUpdate(req.params.id, {
+        ...req.body,
+        slug: slugify(req.body.fullName),
+      });
       return res.status(200).json({ message: "College updated" });
     } catch (err) {
       return res.status(500).json({ message: err.message });
