@@ -16,10 +16,7 @@ const blogController = {
     const slug = req.params.id || undefined;
     try {
       const blogarr = await Blog.find({
-        $or: [
-          { _id: isValidObjectId(slug) ? Types.ObjectId(slug) : undefined },
-          { slug },
-        ],
+        $or: [{ _id: isValidObjectId(slug) ? slug : undefined }, { slug }],
       });
       return res.status(200).json({ message: "Single blog", data: blogarr });
     } catch (err) {
