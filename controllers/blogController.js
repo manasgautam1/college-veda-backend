@@ -1,4 +1,5 @@
 const Blog = require("../models/blog");
+const { slugify } = require("../utils/helper");
 
 const blogController = {
   getAllBlogs: async (req, res) => {
@@ -11,8 +12,9 @@ const blogController = {
   },
 
   getBlogById: async (req, res) => {
+    const slug = req.params.id || undefined;
     try {
-      const blogarr = await Blog.findById(req.params.id);
+      const blogarr = await Blog.find({ slug: slug });
       return res.status(200).json({ message: "Single blog", data: blogarr });
     } catch (err) {
       return res.status(500).json({ message: err.message });
@@ -22,12 +24,14 @@ const blogController = {
   createBlog: async (req, res) => {
     try {
       const { title, date, body, blogPic, author } = req.body;
+      const slug = slugify(title);
       const blogObj = new Blog({
         title,
         date,
         body,
         blogPic,
         author,
+        slug,
       });
       await blogObj.save();
       return res.status(200).json({ message: "Blog created" });
@@ -37,8 +41,10 @@ const blogController = {
   },
 
   updateBlog: async (req, res) => {
+    const data = { ...req.body, slug: slugify(req.body.title) };
+
     try {
-      await Blog.findByIdAndUpdate(req.params.id, req.body);
+      await Blog.findByIdAndUpdate(req.params.id, data);
       return res.status(200).json({ message: "Blog Updated" });
     } catch (err) {
       return res.status(500).json({ message: err.message });
