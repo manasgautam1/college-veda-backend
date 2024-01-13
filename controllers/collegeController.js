@@ -1,5 +1,7 @@
 const { College, Table, Course } = require("../models/college");
 const University = require("../models/university");
+const { isValidObjectId, Types } = require("mongoose");
+const { slugify } = require("../utils/helper");
 
 const collegeController = {
   getAllColleges: async (req, res) => {
