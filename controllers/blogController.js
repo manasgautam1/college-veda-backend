@@ -1,3 +1,4 @@
+const { isValidObjectId, Types } = require("mongoose");
 const Blog = require("../models/blog");
 const { slugify } = require("../utils/helper");
 
@@ -14,7 +15,12 @@ const blogController = {
   getBlogById: async (req, res) => {
     const slug = req.params.id || undefined;
     try {
-      const blogarr = await Blog.find({ slug: slug });
+      const blogarr = await Blog.find({
+        $or: [
+          { _id: isValidObjectId(slug) ? Types.ObjectId(slug) : undefined },
+          { slug },
+        ],
+      });
       return res.status(200).json({ message: "Single blog", data: blogarr });
     } catch (err) {
       return res.status(500).json({ message: err.message });
