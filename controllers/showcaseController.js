@@ -43,7 +43,14 @@ const showcaseController = {
   },
 
   updateShowcaseData: async (req, res) => {
-    // Implement logic to update a user
+    const data = req.body;
+
+    try {
+      await Showcase.findByIdAndUpdate(req.params.id, data);
+      return res.status(200).json({ message: "Showcase data Updated" });
+    } catch (err) {
+      return res.status(500).json({ message: err.message });
+    }
   },
 
   deleteShowcaseData: async (req, res) => {
