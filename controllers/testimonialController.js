@@ -12,19 +12,27 @@ const testimonialController = {
 
   getTestimonialById: async (req, res) => {
     // Implement logic to get a user by ID
+    try {
+      const state = await Testimonial.findById(req.params.id);
+      return res
+        .status(200)
+        .json({ message: "Single Testimonial", data: state });
+    } catch (err) {
+      return res.status(500).json({ message: err.message });
+    }
   },
 
   createTestimonial: async (req, res) => {
     // Implement logic to create a new user
     try {
       const { name, photo, message, position } = req.body;
-      const tesitmonialObj = new Testimonial({
+      const testimonialObj = new Testimonial({
         name,
         photo,
         message,
         position,
       });
-      await tesitmonialObj.save();
+      await testimonialObj.save();
       return res.status(200).json({ message: "Testimonial created" });
     } catch (err) {
       return res.status(500).json({ message: err.message });
