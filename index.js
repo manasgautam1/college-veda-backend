@@ -32,6 +32,7 @@ app.use("/api/contact", require("./routes/contactFormDataRoutes"));
 app.use("/api/colleges", require("./routes/collegeRoutes"));
 app.use("/api/universities", require("./routes/universityRoutes"));
 app.use("/api/showcase", require("./routes/showcaseRoutes"));
+app.use("/api/rank-predictor", require("./routes/rankPredictorRoutes"));
 
 // Add other routes as needed
 

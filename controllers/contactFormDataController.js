@@ -19,13 +19,27 @@ const contactFormDataController = {
   createContactFormData: async (req, res) => {
     // Implement logic to create a new user
     try {
-      const { fullName, phone, email, message, source } = req.body;
+      const {
+        fullName,
+        phone,
+        email,
+        message,
+        source,
+        joinAs,
+        designation,
+        firmName,
+        institutionName,
+      } = req.body;
       const contactFormDataObj = new ContactFormData({
         fullName,
         phone,
         email,
         message,
         source,
+        joinAs,
+        designation,
+        firmName,
+        institutionName,
       });
       await contactFormDataObj.save();
       return res.status(200).json({ message: "Contact form data added" });

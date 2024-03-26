@@ -16,6 +16,18 @@ const contactFormDataSchema = new mongoose.Schema({
   source: {
     type: String,
   },
+  joinAs: {
+    type: String,
+  },
+  designation: {
+    type: String,
+  },
+  firmName: {
+    type: String,
+  },
+  institutionName: {
+    type: String,
+  },
 });
 
 const ContactFormData = mongoose.model(
