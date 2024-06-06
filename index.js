@@ -33,6 +33,7 @@ app.use("/api/colleges", require("./routes/collegeRoutes"));
 app.use("/api/universities", require("./routes/universityRoutes"));
 app.use("/api/showcase", require("./routes/showcaseRoutes"));
 app.use("/api/rank-predictor", require("./routes/rankPredictorRoutes"));
+app.use("/api/apply", require("./routes/applyFormRoutes"));
 
 // Add other routes as needed
 
