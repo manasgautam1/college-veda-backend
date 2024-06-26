@@ -19,13 +19,14 @@ const rankPredictorController = {
   createRankPredictor: async (req, res) => {
     // Implement logic to create a new user
     try {
-      const { name, phone, gender, category, score } = req.body;
+      const { name, phone, gender, category, score, rank } = req.body;
       const rankPredictorObj = new RankPredictor({
         name,
         phone,
         gender,
         category,
         score,
+        rank,
       });
       await rankPredictorObj.save();
       return res.status(200).json({ message: "Contact form data added" });

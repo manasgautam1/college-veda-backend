@@ -16,6 +16,9 @@ const rankPredictorSchema = new mongoose.Schema({
   score: {
     type: String,
   },
+  rank: {
+    type: String,
+  },
 });
 
 const RankPredictor = mongoose.model("RankPredictor", rankPredictorSchema);
