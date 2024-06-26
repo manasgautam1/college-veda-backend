@@ -29,6 +29,8 @@ const contactFormDataController = {
         designation,
         firmName,
         institutionName,
+        courseDetails,
+        exam,
       } = req.body;
       const contactFormDataObj = new ContactFormData({
         fullName,
@@ -40,6 +42,8 @@ const contactFormDataController = {
         designation,
         firmName,
         institutionName,
+        courseDetails,
+        exam,
       });
       await contactFormDataObj.save();
       return res.status(200).json({ message: "Contact form data added" });

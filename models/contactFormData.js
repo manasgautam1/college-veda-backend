@@ -28,6 +28,12 @@ const contactFormDataSchema = new mongoose.Schema({
   institutionName: {
     type: String,
   },
+  courseDetails: {
+    type: String,
+  },
+  exam: {
+    type: String,
+  },
 });
 
 const ContactFormData = mongoose.model(
